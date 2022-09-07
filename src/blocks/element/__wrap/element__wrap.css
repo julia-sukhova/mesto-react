@@ -1,0 +1,4 @@
+.element__wrap {
+    display: flex;
+    flex-direction: column;
+}

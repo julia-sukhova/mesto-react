@@ -1,0 +1,11 @@
+.element__container {
+    background: #FFFFFF;
+    width: 282px;
+    padding: 20px 20px 20px 21px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0 0 10px 10px;
+    box-sizing: border-box;
+    align-items: center;
+}

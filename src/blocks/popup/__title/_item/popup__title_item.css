@@ -1,0 +1,15 @@
+.popup__title_item {
+    padding-right: 200px;
+}
+
+@media screen and (max-width: 430px) {
+    .popup__title_item {
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .popup__title_item {
+        padding-right: 115px;
+    }
+}

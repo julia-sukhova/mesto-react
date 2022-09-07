@@ -1,0 +1,9 @@
+.form__label {
+    margin-bottom: 30px;
+    position: relative;
+    display: block;
+}
+
+.form__label:last-of-type {
+    margin-bottom: 0;
+}

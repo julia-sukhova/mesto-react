@@ -1,0 +1,16 @@
+.header {
+    max-width: 880px;
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
+    margin: 0 auto 30px;
+    padding-top: 45px;
+    justify-content: center;
+}
+
+/*не забыть проверить верстку марджин меняла на паддинг, чтобы не было белого отступа сверху страницы*/
+@media screen and (max-width: 320px) {
+    .header {
+        max-width: 320px;
+        margin: 0 0 42px;
+        padding-top: 28px;
+    }
+}
