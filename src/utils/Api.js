@@ -1,4 +1,4 @@
-import { authorizationToken } from '../utils/constants.js'
+import { authorizationToken } from './constants.js'
 
 class Api {
     constructor({ baseUrl, headers }) {

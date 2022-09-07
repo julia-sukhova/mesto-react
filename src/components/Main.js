@@ -1,16 +1,17 @@
 import '../index.css';
 import React from "react";
-import { api } from './Api.js';
+import { api } from '../utils/Api.js';
 import Card from './Card.js';
+import { useEffect, useState } from 'react';
 
-function Main(props) {
-    const [userAvatar, setUserAvatar] = React.useState(require('../images/loader.gif'));
-    const [userName, setUserName] = React.useState('Загрузка...');
-    const [userTitle, setUserTitle] = React.useState('');
-    const [userId, setUserId] = React.useState(0);
-    const [cards, setCards] = React.useState([]);
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onDeleteCardClick, onCardClick }) {
+    const [userAvatar, setUserAvatar] = useState(require('../images/loader.gif'));
+    const [userName, setUserName] = useState('Загрузка...');
+    const [userTitle, setUserTitle] = useState('');
+    const [userId, setUserId] = useState(0);
+    const [cards, setCards] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         Promise.all([
             api.getUserInfo(),
             api.getInitialCards()])
@@ -29,27 +30,27 @@ function Main(props) {
     return (
         <main className="content">
             <section className="profile">
-                <div className="profile__container" onClick={props.onEditAvatar}>
+                <div className="profile__container" onClick={onEditAvatar}>
                     <img src={userAvatar} className="profile__avatar" alt="Аватар профиля" />
                 </div>
                 <div className="profile__info">
                     <div className="profile__info-item">
                         <h1 className="profile__name">{userName}</h1>
-                        <button className="profile__edit-button" onClick={props.onEditProfile} type="button" aria-label="Редактировать"></button>
+                        <button className="profile__edit-button" onClick={onEditProfile} type="button" aria-label="Редактировать"></button>
                     </div>
                     <p className="profile__subtitle">{userTitle}</p>
                 </div>
-                <button className="profile__add-button" onClick={props.onAddPlace} type="button" aria-label="Добавить"></button>
+                <button className="profile__add-button" onClick={onAddPlace} type="button" aria-label="Добавить"></button>
             </section>
 
             <section className="elements">
-                {cards.map((card, i) => (
+                {cards.map((card) => (
                     <Card
                         key={card._id}
                         userId={userId}
                         card={card}
-                        onDeleteCardClick={props.onDeleteCardClick}
-                        onCardClick={props.onCardClick}>
+                        onDeleteCardClick={onDeleteCardClick}
+                        onCardClick={onCardClick}>
                     </Card>
                 ))}
             </section>
