@@ -17,9 +17,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     function handleNameChange(event) {
         setName(event.target.value || "");
     }
+
     function handleAboutChange(event) {
         setAbout(event.target.value || "");
     }
+
     function handleSubmit(event) {
         event.preventDefault();
         setButtonText("Сохранение...");
@@ -31,11 +33,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             setButtonText("Сохранить")
         });
     }
+
     function handleMouseDown(event) {
         if (event.target.classList.contains('popup_type_user')) {
             onClose();
         }
     }
+
     return (
         <div className={`popup popup_type_user ${isOpen ? 'popup_opened' : ''}`} onMouseDown={handleMouseDown}>
             <div className="popup__container">

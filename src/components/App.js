@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 import { api } from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-
 function App() {
   const [currentUser, setCurrentUser] = useState({ avatar: loader });
   const [cards, setCards] = useState([]);
@@ -145,8 +144,7 @@ function App() {
           <EditProfilePopup
             onClose={closeAllPopups}
             isOpen={isEditProfilePopupOpened}
-            onUpdateUser={handleUpdateUser}
-          >
+            onUpdateUser={handleUpdateUser}>
           </EditProfilePopup>
 
           <EditAvatarPopup
@@ -177,7 +175,5 @@ function App() {
     </CurrentUserContext.Provider>
   );
 }
-
-
 
 export default App;

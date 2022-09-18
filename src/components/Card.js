@@ -4,20 +4,23 @@ import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card({ card, onCardClick, onDeleteCardClick, onCardLikeClick }) {
-
     const currentUser = useContext(CurrentUserContext);
 
     function handleClick() {
         onCardClick(card);
     }
+
     function handleDeleteClick() {
         onDeleteCardClick(card);
     }
+
     function handleCardLike() {
         onCardLikeClick(card);
     }
+
     const canDelete = currentUser._id === card.owner._id;
     const isLiked = card.likes.some(user => user._id === currentUser._id);
+
     return (
         <article className="element">
             <button className={`element__button-delete ${canDelete ? '' : 'element__button-delete_inactive'}`}

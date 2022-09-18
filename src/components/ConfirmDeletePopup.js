@@ -4,6 +4,7 @@ import '../index.css';
 
 function ConfirmDeletePopup({ isOpen, onClose, onConfirmed }) {
     const [buttonText, setButtonText] = useState("Да");
+
     function handleConfirmed() {
         setButtonText("Удаление...");
         onConfirmed().finally(() => {
@@ -11,11 +12,13 @@ function ConfirmDeletePopup({ isOpen, onClose, onConfirmed }) {
             setButtonText("Да")
         });
     }
+
     function handleMouseDown(event) {
         if (event.target.classList.contains('popup_type_delete-card-confirm')) {
             onClose();
         }
     }
+
     return (
         <div className={`popup popup_type_delete-card-confirm ${isOpen ? 'popup_opened' : ''}`} onMouseDown={handleMouseDown}>
             <div className="popup__container">
