@@ -1,22 +1,19 @@
 import React from "react";
-import '../index.css';
+import Popup from './Popup';
 
 function ImagePreviewPopup({ isOpen, card, onClose }) {
-
-    function handleMouseDown(event) {
-        if (event.target.classList.contains('popup_type_view-photo')) {
-            onClose();
-        }
-    }
-
     return (
-        <div className={`popup popup_type_view-photo ${isOpen ? 'popup_opened' : ''}`} onMouseDown={handleMouseDown}>
-            <div className="popup__content">
-                <button className="popup__close-button" type="button" aria-label="Закрыть" onClick={onClose}></button>
-                <img className="popup__image" src={card.link} alt={card.name} />
-                <p className="popup__caption">{card.name}</p>
-            </div>
-        </div>
+        <Popup
+            name="view-photo"
+            isOpen={isOpen}
+            onClose={onClose}
+            title=""
+            titleExtClass=""
+            popupContentClass="popup__content"
+        >
+            <img className="popup__image" src={card.link} alt={card.name} />
+            <p className="popup__caption">{card.name}</p>
+        </Popup>
     )
 }
 

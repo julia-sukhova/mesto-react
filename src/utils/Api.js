@@ -7,33 +7,33 @@ class Api {
     }
 
     getInitialCards() {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/cards', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/cards`, {
             headers: this._headers
         })).then(res => res.json());
     }
 
     getUserInfo() {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/users/me', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
         })).then(res => res.json());
     }
 
     likeCard(cardId) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/cards/' + cardId + '/likes', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: this._headers
         })).then(res => res.json());
     }
 
     dislikeCard(cardId) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/cards/' + cardId + '/likes', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
             headers: this._headers
         })).then(res => res.json());
     }
 
     addNewCard(cardData) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/cards', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             body: cardData,
             headers: this._headers
@@ -41,7 +41,7 @@ class Api {
     }
 
     updateUserInfo(userData) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/users/me', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: userData
@@ -49,14 +49,14 @@ class Api {
     }
 
     deleteCard(cardId) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/cards/' + cardId, {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: this._headers
         })).then(res => res.json());
     }
 
     updateAvatar(data) {
-        return this._wrapFetchResponse(fetch(this._baseUrl + '/users/me/avatar', {
+        return this._wrapFetchResponse(fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             body: data,
             headers: this._headers

@@ -1,5 +1,4 @@
 import React from "react";
-import '../index.css';
 import loader from '../images/loader.gif';
 import Header from '../components/Header';
 import Main from '../components/Main';
@@ -10,12 +9,18 @@ import ImagePreviewPopup from "./ImagePreviewPopup";
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import { useState, useEffect } from 'react';
-import { api } from '../utils/Api.js';
+import { api } from '../utils/api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ avatar: loader });
   const [cards, setCards] = useState([]);
+  const [isEditAvatarPopupOpened, setIsEditAvatarPopupOpened] = useState(false);
+  const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
+  const [isAddPlacePopupOpened, setIsAddPlacePopupOpened] = useState(false);
+  const [isDeleteConfirmPopupOpened, setIsDeleteConfirmPopupOpened] = useState(false);
+  const [isPreviewCardPopupOpened, setPreviewCardPopupOpened] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   useEffect(() => {
     Promise.all([
@@ -30,13 +35,6 @@ function App() {
       });
   }, []);
 
-  const [isEditAvatarPopupOpened, setIsEditAvatarPopupOpened] = useState(false);
-  const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
-  const [isAddPlacePopupOpened, setIsAddPlacePopupOpened] = useState(false);
-  const [isDeleteConfirmPopupOpened, setIsDeleteConfirmPopupOpened] = useState(false);
-  const [isPreviewCardPopupOpened, setPreviewCardPopupOpened] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
-
   function handleCardClick(card) {
     setSelectedCard(card);
     setPreviewCardPopupOpened(true);
@@ -47,25 +45,10 @@ function App() {
     setIsDeleteConfirmPopupOpened(true);
   }
 
-  function handleDeleteCardConfirm() {
-    return api.deleteCard(selectedCard._id)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== selectedCard._id));
-      })
-      .catch(err => {
-        console.log(`Ошибка удаления карточки: ${err}`);
-      });
-  }
-
   function handleCardLikeClick(card) {
     const isLiked = card.likes.some(user => user._id === currentUser._id);
-    let p;
-    if (isLiked) {
-      p = api.dislikeCard(card._id);
-    } else {
-      p = api.likeCard(card._id);
-    }
-    p
+    const action = isLiked ? api.dislikeCard(card._id) : api.likeCard(card._id);
+    action
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
@@ -86,33 +69,55 @@ function App() {
     setIsAddPlacePopupOpened(true);
   };
 
-  function handleUpdateUser(newUserInfo) {
-    return api.updateUserInfo(JSON.stringify(newUserInfo))
+  function handleUpdateUser(newUserInfo, onDone) {
+    api.updateUserInfo(JSON.stringify(newUserInfo))
       .then((res) => {
         setCurrentUser(res);
       })
       .catch(err => {
         console.log(`Ошибка обновления информации о пользователе: ${err}`);
+      }).finally(() => {
+        closeAllPopups();
+        onDone();
       });
   }
 
-  function handleUpdateAvatar(newAvatar) {
-    return api.updateAvatar(JSON.stringify(newAvatar))
+  function handleUpdateAvatar(newAvatar, onDone) {
+    api.updateAvatar(JSON.stringify(newAvatar))
       .then((res) => {
         setCurrentUser(res);
       })
       .catch(err => {
         console.log(`Ошибка обновления аватара: ${err}`);
+      }).finally(() => {
+        closeAllPopups();
+        onDone();
       });
   }
 
-  function handleAddCard(newCard) {
-    return api.addNewCard(JSON.stringify(newCard))
+  function handleAddCard(newCard, onDone) {
+    api.addNewCard(JSON.stringify(newCard))
       .then((res) => {
         setCards([res, ...cards]);
       })
       .catch(err => {
         console.log(`Ошибка добавления карточки: ${err}`);
+      }).finally(() => {
+        closeAllPopups();
+        onDone();
+      });
+  }
+
+  function handleDeleteCardConfirm(onDone) {
+    api.deleteCard(selectedCard._id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== selectedCard._id));
+      })
+      .catch(err => {
+        console.log(`Ошибка удаления карточки: ${err}`);
+      }).finally(() => {
+        closeAllPopups();
+        onDone();
       });
   }
 

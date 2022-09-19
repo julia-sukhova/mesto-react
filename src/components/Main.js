@@ -1,4 +1,3 @@
-import '../index.css';
 import React from "react";
 import Card from './Card.js';
 import { useContext } from 'react';
