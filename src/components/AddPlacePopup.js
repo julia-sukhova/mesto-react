@@ -1,25 +1,17 @@
 import React from "react";
-import { useState } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddCard }) {
-    const [buttonText, setButtonText] = useState("Создать");
+function AddPlacePopup({ isOpen, onClose, onAddCard, buttonText }) {
     const nameInputRef = React.useRef();
     const linkInputRef = React.useRef();
 
     function onSubmit(event) {
         event.preventDefault();
-        setButtonText("Создание...");
         onAddCard({
             name: nameInputRef.current.value || "",
             link: linkInputRef.current.value || ""
-        }, () => {
-            setButtonText("Создать");
-            nameInputRef.current.value = "";
-            linkInputRef.current.value = "";
         });
     }
-
     return (
         <PopupWithForm
             name="photo-card"

@@ -1,7 +1,12 @@
 import React from "react";
+import { useRef, useEffect } from "react";
 import Popup from './Popup';
 
 function PopupWithForm({ name, isOpen, onClose, onSubmit, title, titleExtClass, children, buttonText }) {
+    const formRef = useRef();
+    useEffect(() => {
+        formRef.current.reset();
+    }, [isOpen])
     return (
         <Popup
             name={name}
@@ -10,7 +15,7 @@ function PopupWithForm({ name, isOpen, onClose, onSubmit, title, titleExtClass, 
             title={title}
             titleExtClass={titleExtClass}
         >
-            <form className="form" name={`form-${name}`} action="#" method="post" noValidate onSubmit={onSubmit}>
+            <form ref={formRef} className="form" name={`form-${name}`} action="#" method="post" noValidate onSubmit={onSubmit}>
                 <label className="form__label">
                     {children}
                 </label>

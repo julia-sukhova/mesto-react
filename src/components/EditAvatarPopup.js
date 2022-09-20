@@ -1,20 +1,14 @@
 import React from "react";
-import { useState } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-    const [buttonText, setButtonText] = useState("Сохранить");
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonText }) {
     const avatarInputRef = React.useRef();
 
     function handleSubmit(event) {
         event.preventDefault();
-        setButtonText("Сохранение...");
         onUpdateAvatar({
             avatar: avatarInputRef.current.value || "",
-        }, () => {
-            setButtonText("Сохранить");
-            avatarInputRef.current.value = "";
-        })
+        });
     }
 
     return (

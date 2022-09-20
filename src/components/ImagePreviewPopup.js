@@ -8,7 +8,7 @@ function ImagePreviewPopup({ isOpen, card, onClose }) {
             isOpen={isOpen}
             onClose={onClose}
             title=""
-            titleExtClass=""
+            titleExtClass="popup__title_inactive"
             popupContentClass="popup__content"
         >
             <img className="popup__image" src={card.link} alt={card.name} />

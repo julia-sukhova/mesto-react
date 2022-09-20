@@ -22,6 +22,11 @@ function App() {
   const [isPreviewCardPopupOpened, setPreviewCardPopupOpened] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
+  const [editProfilePopupButtonText, setEditProfilePopupButtonText] = useState("Сохранить");
+  const [editAvatarPopupButtonText, setEditAvatarPopupButtonText] = useState("Сохранить");
+  const [addPlacePopupButtonText, setAddPlacePopupButtonText] = useState("Создать");
+  const [confirmDeleteButtonPopupText, setConfirmDeleteButtonPopupText] = useState("Да");
+
   useEffect(() => {
     Promise.all([
       api.getUserInfo(),
@@ -69,55 +74,63 @@ function App() {
     setIsAddPlacePopupOpened(true);
   };
 
-  function handleUpdateUser(newUserInfo, onDone) {
+  function handleUpdateUser(newUserInfo) {
+    const origButtonText = editProfilePopupButtonText;
+    setEditProfilePopupButtonText("Сохранение...");
     api.updateUserInfo(JSON.stringify(newUserInfo))
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch(err => {
         console.log(`Ошибка обновления информации о пользователе: ${err}`);
       }).finally(() => {
-        closeAllPopups();
-        onDone();
+        setEditProfilePopupButtonText(origButtonText);
       });
   }
 
-  function handleUpdateAvatar(newAvatar, onDone) {
+  function handleUpdateAvatar(newAvatar) {
+    const origButtonText = editAvatarPopupButtonText;
+    setEditAvatarPopupButtonText("Сохранение...");
     api.updateAvatar(JSON.stringify(newAvatar))
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch(err => {
         console.log(`Ошибка обновления аватара: ${err}`);
       }).finally(() => {
-        closeAllPopups();
-        onDone();
+        setEditAvatarPopupButtonText(origButtonText);
       });
   }
 
-  function handleAddCard(newCard, onDone) {
+  function handleAddCard(newCard) {
+    const origButtonText = addPlacePopupButtonText;
+    setAddPlacePopupButtonText("Создание...");
     api.addNewCard(JSON.stringify(newCard))
       .then((res) => {
         setCards([res, ...cards]);
+        closeAllPopups();
       })
       .catch(err => {
         console.log(`Ошибка добавления карточки: ${err}`);
       }).finally(() => {
-        closeAllPopups();
-        onDone();
+        setAddPlacePopupButtonText(origButtonText);
       });
   }
 
-  function handleDeleteCardConfirm(onDone) {
+  function handleDeleteCardConfirm() {
+    const origButtonText = confirmDeleteButtonPopupText;
+    setConfirmDeleteButtonPopupText("Удаление...");
     api.deleteCard(selectedCard._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== selectedCard._id));
+        closeAllPopups();
       })
       .catch(err => {
         console.log(`Ошибка удаления карточки: ${err}`);
       }).finally(() => {
-        closeAllPopups();
-        onDone();
+        setConfirmDeleteButtonPopupText(origButtonText);
       });
   }
 
@@ -149,32 +162,36 @@ function App() {
           <EditProfilePopup
             onClose={closeAllPopups}
             isOpen={isEditProfilePopupOpened}
-            onUpdateUser={handleUpdateUser}>
-          </EditProfilePopup>
+            onUpdateUser={handleUpdateUser}
+            buttonText={editProfilePopupButtonText}
+          />
 
           <EditAvatarPopup
             onClose={closeAllPopups}
             isOpen={isEditAvatarPopupOpened}
-            onUpdateAvatar={handleUpdateAvatar}>
-          </EditAvatarPopup>
+            onUpdateAvatar={handleUpdateAvatar}
+            buttonText={editAvatarPopupButtonText}
+          />
 
           <AddPlacePopup
             onClose={closeAllPopups}
             isOpen={isAddPlacePopupOpened}
-            onAddCard={handleAddCard}>
-          </AddPlacePopup>
+            onAddCard={handleAddCard}
+            buttonText={addPlacePopupButtonText}
+          />
 
           <ImagePreviewPopup
             onClose={closeAllPopups}
             isOpen={isPreviewCardPopupOpened}
-            card={selectedCard}>
-          </ImagePreviewPopup>
+            card={selectedCard}
+          />
 
           <ConfirmDeletePopup
             onClose={closeAllPopups}
             onConfirmed={handleDeleteCardConfirm}
-            isOpen={isDeleteConfirmPopupOpened}>
-          </ConfirmDeletePopup>
+            isOpen={isDeleteConfirmPopupOpened}
+            buttonText={confirmDeleteButtonPopupText}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>

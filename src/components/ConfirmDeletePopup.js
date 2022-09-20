@@ -1,27 +1,22 @@
 import React from "react";
-import { useState } from 'react';
-import Popup from './Popup';
+import PopupWithForm from "./PopupWithForm";
 
-function ConfirmDeletePopup({ isOpen, onClose, onConfirmed }) {
-    const [buttonText, setButtonText] = useState("Да");
-
-    function handleConfirmed() {
-        setButtonText("Удаление...");
-        onConfirmed(() => {
-            setButtonText("Да");
-        });
+function ConfirmDeletePopup({ isOpen, onClose, onConfirmed, buttonText }) {
+    function handleConfirmed(event) {
+        event.preventDefault();
+        onConfirmed();
     }
-
     return (
-        <Popup
+        <PopupWithForm
             name="delete-card-confirm"
             isOpen={isOpen}
             onClose={onClose}
+            onSubmit={handleConfirmed}
             title="Вы уверены?"
             titleExtClass="popup__title_element popup__title_indent"
+            buttonText={buttonText}
         >
-            <button className="popup__button" type="button" value="save" onClick={handleConfirmed}>{buttonText}</button>
-        </Popup>
+        </PopupWithForm>
     )
 }
 
