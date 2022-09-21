@@ -12,6 +12,7 @@ function AddPlacePopup({ isOpen, onClose, onAddCard, buttonText }) {
             link: linkInputRef.current.value || ""
         });
     }
+
     return (
         <PopupWithForm
             name="photo-card"

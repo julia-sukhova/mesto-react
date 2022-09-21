@@ -7,6 +7,7 @@ function PopupWithForm({ name, isOpen, onClose, onSubmit, title, titleExtClass, 
     useEffect(() => {
         formRef.current.reset();
     }, [isOpen])
+
     return (
         <Popup
             name={name}

@@ -1,6 +1,7 @@
 import React from "react";
 
 function Popup({ name, isOpen, onClose, title, titleExtClass, children, popupContentClass }) {
+
     function handleMouseDown(event) {
         if (event.target.classList.contains(`popup_type_${name}`)) {
             onClose();
@@ -9,6 +10,7 @@ function Popup({ name, isOpen, onClose, title, titleExtClass, children, popupCon
     if (!popupContentClass) {
         popupContentClass = "popup__container";
     }
+
     return (
         <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`} onMouseDown={handleMouseDown}>
             <div className={popupContentClass}>
